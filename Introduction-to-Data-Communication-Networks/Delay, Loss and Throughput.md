@@ -1,5 +1,4 @@
 ## 1. Delay
----
 End-to-end network를 통해 한 host에서 다른 host로 data가 이동한다.
 Packet switched network에서 data는 packet 단위로 쪼개져 전송된다.
 Packet은 host를 출발하여 access network를 거쳐 네트워크 core에 도달, 여러 router와 link를 지나 receiver에 도달한다.
