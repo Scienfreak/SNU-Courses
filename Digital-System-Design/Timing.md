@@ -119,3 +119,6 @@ Four types
 #### *for*
 - for <-> while
 - synthesizalbe: compile time에 loop이 몇 번 도는지 알고 있어야 함.
+
+#### *forever*
+- Synthesize 불가능.
