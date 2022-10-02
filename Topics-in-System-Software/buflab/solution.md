@@ -23,8 +23,11 @@ After that, the code in the stack must have return address which goes to bang fu
 I had to restore the stack status, especially the original ebx value of the caller, stored at the callee's fuction prolog.<br>
 I added original ebx value into my injecting code, and made my code to move my cookie value to register %eax0.<br>
 
-## level 4
+## level 4 (NOP Sled - Avoid ASRL)
 
+ASLR varies address of stack in 2^23 range.<br>
+However, by injecting NOP-Sled exploiting BOF, the probability to return into the NOP-Seld goes up.<br>
+Not every attempt might be covered, but it make likely the varying range into 65536, which can be exploited by Brute-Force attack.<br>
 
 ## level 5 (RTL - Return-to-libc attack)
 
