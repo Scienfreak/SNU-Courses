@@ -24,3 +24,17 @@ I had to restore the stack status, especially the original ebx value of the call
 I added original ebx value into my injecting code, and made my code to move my cookie value to register %eax0.<br>
 
 ## level 4
+
+
+## level 5 (RTL - Return-to-libc attack)
+
+### *REQUIREMENTS*
+
+- We should print "HOLYMOLY: my cookie is 0x<your cookie>\."
+ [After printing, we should return to original return address in testr.]: #
+ [At the time, `%eax == 0x22` and `%ebp == origianl ebp` are required.]: #
+- Return to after the checking wheter %eax's value is 0x22 or not.
+  
+### *Exploit code*
+  
+> "pad: 44 Bytes" + "call printf function (4Byte)" + "gadget: pop 2 times and return" + "printf's arg1 (address of string)" + "printf's arg2 (my cookie value)" + "RET to testr"
