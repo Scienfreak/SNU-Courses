@@ -31,6 +31,15 @@ Not every attempt might be covered, but it make likely the varying range into 65
 
 ## level 5 (RTL - Return-to-libc attack)
 
+- In 'testr', sprintf function stores "HOLYMOLY: my cookie is 0x<your cookie>\." in the string pointer.
+- What we should do is calling puts function with this pointer, with preserving stack values(ebp, ebx).
+ 
+> "pad: 36 Bytes" + "(ebx)(4Byte)" + "(ebp)(4Byte)" + "puts function address (4Byte)[first return address]" + "RET to original testr return address(4Byte)"
+ 
+---
+ 
+ > other solution
+ 
 ### *REQUIREMENTS*
 
 - We should print "HOLYMOLY: my cookie is 0x<your cookie>\."
