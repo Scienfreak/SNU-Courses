@@ -64,7 +64,7 @@ void init(void)
   // get realloc symbol
   reallocp = dlsym(RTLD_NEXT, "realloc");
   if (((error = dlerror()) != NULL) || (reallocp == NULL)) {
-    fprintf(stderr, "Error getting symbol 'malloc': %s\n", error);
+    fprintf(stderr, "Error getting symbol 'realloc': %s\n", error);
     exit(EXIT_FAILURE);
   }
 
@@ -144,9 +144,21 @@ void *realloc(void *ptr, size_t size) {
   void *nptr;
   item *i;
 
+  // Check invalid ptr
+  if ((i = find(list, ptr)) == NULL) {
+    // error log
+    return NULL;
+  }
+
+  // reallocation - maybe use free and malloc instead?
   if ((nptr = reallocp(ptr, size)) == NULL) {
     return NULL;
   }
+
+  // Dealloc to list
+  if ((i = dealloc(list, ptr)) == NULL) {
+    ; // might check return value?
+  } 
 
   // Alloc to list
   LOG_REALLOC(ptr, size, nptr);
@@ -165,12 +177,21 @@ void *realloc(void *ptr, size_t size) {
 void free(void *ptr) {
   item *i;
 
-  // maybe check double or ill free
+  // check double or ill free
+  if ((i = find(list, ptr)) == NULL) {
+    // ill free
+    ;
+  } else if (i->cnt == 0) { //maybe? 
+    // double free
+    ;
+  }
+
+  // free
   freep(ptr);
 
   // Dealloc to list
   LOG_FREE(ptr);
-  if ((i = dealloc(list, ptr))) {
+  if ((i = dealloc(list, ptr)) == NULL) {
     ; // might check return value?
   } 
   n_freeb += i->size;
